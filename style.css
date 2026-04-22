@@ -1,0 +1,273 @@
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+
+body {
+  min-height: 100vh;
+  font-family: "Poppins", Arial, sans-serif;
+
+  
+  background: 
+    linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.75)),
+    url("bg.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: #fff;
+  overflow: hidden;
+  animation: fadeIn 1s ease-in-out;
+}
+
+
+.container {
+  width: 380px;
+  padding: 32px 26px;
+  border-radius: 22px;
+
+  
+  background: rgba(255, 255, 255, 0.14);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+
+  border: 1px solid rgba(255, 255, 255, 0.3);
+
+  
+  box-shadow:
+    0 0 25px rgba(0, 255, 255, 0.25),
+    0 0 45px rgba(255, 0, 255, 0.15),
+    0 30px 60px rgba(0, 0, 0, 0.6);
+
+  animation: glowPulse 4s infinite ease-in-out;
+  transition: box-shadow 0.4s ease;
+  z-index: 1;
+}
+
+
+@keyframes glowPulse {
+  0% {
+    box-shadow:
+      0 0 20px rgba(0, 255, 255, 0.25),
+      0 0 40px rgba(255, 0, 255, 0.15),
+      0 30px 60px rgba(0, 0, 0, 0.6);
+  }
+  50% {
+    box-shadow:
+      0 0 35px rgba(0, 255, 255, 0.45),
+      0 0 65px rgba(255, 0, 255, 0.35),
+      0 40px 80px rgba(0, 0, 0, 0.8);
+  }
+  100% {
+    box-shadow:
+      0 0 20px rgba(0, 255, 255, 0.25),
+      0 0 40px rgba(255, 0, 255, 0.15),
+      0 30px 60px rgba(0, 0, 0, 0.6);
+  }
+}
+
+
+h1, h2 {
+  text-align: center;
+  margin-bottom: 22px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-shadow: 0 4px 12px rgba(0,0,0,0.6);
+}
+
+
+input, select {
+  width: 100%;
+  padding: 13px 15px;
+  margin: 12px 0;
+  border-radius: 14px;
+  border: none;
+  outline: none;
+
+  background: rgba(255, 255, 255, 0.25);
+  color: #fff;
+  font-size: 15px;
+
+  box-shadow: inset 0 4px 10px rgba(0,0,0,0.35);
+  transition: background 0.3s ease, box-shadow 0.3s ease;
+}
+
+input::placeholder {
+  color: rgba(255,255,255,0.85);
+}
+
+input:focus, select:focus {
+  background: rgba(255,255,255,0.4);
+  box-shadow:
+    inset 0 4px 10px rgba(0,0,0,0.35),
+    0 0 12px rgba(0,255,255,0.6);
+}
+
+
+button {
+  width: 100%;
+  padding: 13px;
+  margin-top: 18px;
+
+  border-radius: 16px;
+  border: none;
+  cursor: pointer;
+
+  background: linear-gradient(135deg, #00f2fe, #4facfe);
+  color: #000;
+  font-size: 16px;
+  font-weight: 600;
+
+  box-shadow:
+    0 10px 25px rgba(0,0,0,0.5),
+    0 0 15px rgba(0,255,255,0.5);
+
+  transition: all 0.35s ease;
+}
+
+button:hover {
+  box-shadow:
+    0 15px 35px rgba(0,0,0,0.7),
+    0 0 30px rgba(0,255,255,0.9);
+}
+
+button:active {
+  transform: scale(0.97);
+}
+
+a {
+  display: block;
+  margin-top: 16px;
+  text-align: center;
+  color: #fff;
+  text-decoration: none;
+  font-size: 14px;
+  opacity: 0.9;
+  transition: opacity 0.3s ease;
+}
+
+a:hover {
+  opacity: 1;
+}
+
+
+#candidates button {
+  background: linear-gradient(135deg, #43e97b, #38f9d7);
+}
+
+
+#results p {
+  background: rgba(255,255,255,0.25);
+  padding: 12px;
+  border-radius: 14px;
+  margin: 10px 0;
+  text-align: center;
+
+  box-shadow:
+    0 6px 20px rgba(0,0,0,0.4),
+    0 0 10px rgba(0,255,255,0.5);
+
+  animation: slideUp 0.6s ease forwards;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(25px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ================= PAGE FADE ================= */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* ================= RESPONSIVE ================= */
+@media (max-width: 420px) {
+  .container {
+    width: 92%;
+  }
+}
+.candidate-card {
+  background: rgba(255,255,255,0.18);
+  padding: 15px;
+  border-radius: 16px;
+  margin-bottom: 15px;
+  text-align: center;
+  box-shadow: 0 0 15px rgba(0,255,255,0.4);
+}
+
+.candidate-card img {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 10px;
+  border: 2px solid rgba(255,255,255,0.6);
+}
+
+.candidate-card h3 {
+  margin: 6px 0;
+}
+
+.candidate-card p {
+  font-size: 14px;
+  opacity: 0.9;
+}
+#results {
+  margin-top: 15px;
+}
+
+#results h3 {
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+#results p {
+  background: rgba(255,255,255,0.22);
+  padding: 10px;
+  border-radius: 12px;
+  margin: 8px 0;
+  text-align: center;
+  box-shadow: 0 0 10px rgba(0,255,255,0.4);
+}
+/* Scrollbar Styling */
+.container::-webkit-scrollbar {
+  width: 6px;
+}
+
+.container::-webkit-scrollbar-track {
+  background: rgba(255,255,255,0.1);
+}
+
+.container::-webkit-scrollbar-thumb {
+  background: rgba(0,255,255,0.6);
+  border-radius: 10px;
+}
+.candidate-card h3 {
+  color: #ffffff;
+  font-size: 18px;
+  margin: 8px 0;
+}
+
+.candidate-card p {
+  color: #f1f1f1;
+}

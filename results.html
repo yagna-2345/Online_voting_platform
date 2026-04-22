@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Results</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="container">
+  <h2>Election Results</h2>
+  <div id="results"></div>
+</div>
+
+<script>
+fetch("http://localhost:3000/results")
+.then(res => res.json())
+.then(data => {
+  data.forEach(r => {
+    results.innerHTML += `
+      <p><b>${r.name}</b> : ${r.votes} votes</p>
+    `;
+  });
+});
+</script>
+</body>
+</html>

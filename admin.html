@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Admin Dashboard</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="container">
+  <h2>Add Candidate for nominations </h2>
+  <h2> </h2>
+
+  <input id="cname" placeholder="Candidate Name" required>
+  <input id="party" placeholder="Party / Department" required>
+  <input id="image" placeholder="Upload Image URL of the candidate" required>
+  <textarea id="desc" placeholder="Candidate Description" required></textarea>
+
+  <button onclick="addCandidate()">Add Candidate</button>
+
+  <hr style="margin:20px 0; opacity:0.3">
+
+  <button onclick="loadResults()">View Results</button>
+  <div id="results"></div>
+</div>
+
+<script>
+function addCandidate() {
+  fetch("http://localhost:3000/candidate", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      name: document.getElementById("cname").value,
+      party: document.getElementById("party").value,
+      description: document.getElementById("desc").value,
+      image: document.getElementById("image").value,
+      election_id: 1
+    })
+  })
+  .then(res => res.text())
+  .then(alert);
+}
+
+function loadResults() {
+  fetch("http://localhost:3000/results")
+  .then(res => res.json())
+  .then(data => {
+    results.innerHTML = "<h3>Results</h3>";
+    data.forEach(r => {
+      results.innerHTML += `<p>${r.name} : ${r.votes}</p>`;
+    });
+  });
+}
+</script>
+
+</body>
+</html>

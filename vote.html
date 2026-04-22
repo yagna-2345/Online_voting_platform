@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Vote</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+  min-height: 100vh;
+  font-family: "Poppins", Arial, sans-serif;
+
+  background:
+    linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.75)),
+    url("bg.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  display: flex;
+  justify-content: center;   /* center horizontally */
+  align-items: flex-start;   /* start from top */
+  padding: 40px 0;
+
+  color: #fff;
+  overflow-y: auto;          /* ✅ allow vertical scroll */
+}
+.container {
+  width: 380px;
+  max-height: 85vh;          /* ✅ prevents overflow */
+  overflow-y: auto;          /* ✅ internal scroll */
+
+  padding: 32px 26px;
+  border-radius: 22px;
+
+  background: rgba(255, 255, 255, 0.14);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+
+  border: 1px solid rgba(255, 255, 255, 0.3);
+
+  box-shadow:
+    0 0 25px rgba(0, 255, 255, 0.25),
+    0 0 45px rgba(255, 0, 255, 0.15),
+    0 30px 60px rgba(0, 0, 0, 0.6);
+}
+
+  </style>
+</head>
+<body>
+<div class="container">
+  <h2>Choose Your Candidate</h2>
+  <div id="candidates"></div>
+</div>
+<script>
+const user = JSON.parse(localStorage.getItem("user"));
+
+fetch("http://localhost:3000/candidates")
+.then(res => res.json())
+.then(data => {
+  console.log(data); // 🔍 DEBUG LINE (IMPORTANT)
+
+  candidates.innerHTML = "";
+
+  data.forEach(c => {
+    candidates.innerHTML += `
+      <div class="candidate-card">
+        <img src="${c.image}" alt="Candidate">
+        <h3>${c.name}</h3>
+        <p><b>${c.party}</b></p>
+        <p>${c.description}</p>
+        <button onclick="vote(${c.id})">Vote</button>
+      </div>
+    `;
+  });
+});
+
+function vote(candidateId) {
+  fetch("http://localhost:3000/vote", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      user_id: user.id,
+      candidate_id: candidateId,
+      election_id: 1
+    })
+  })
+  .then(res => res.text())
+  .then(alert);
+}
+</script>
+
+</body>
+</html>
