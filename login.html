@@ -3,36 +3,153 @@
 <head>
   <title>Login</title>
   <link rel="stylesheet" href="style.css">
+  <style>
+    .login-container {
+      width: 320px !important;
+      padding: 28px 24px !important;
+    }
+
+    .login-container h2 {
+      font-size: 22px;
+      margin-bottom: 20px;
+    }
+
+    .login-form {
+      animation: slideUp 0.6s ease-out;
+    }
+
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .login-container input {
+      padding: 10px 13px !important;
+      margin: 8px 0 !important;
+      font-size: 14px !important;
+    }
+
+    .login-container button {
+      padding: 11px 18px !important;
+      margin-top: 14px !important;
+      font-size: 15px !important;
+      transition: all 0.3s ease;
+    }
+
+    button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .login-container a {
+      margin-top: 12px !important;
+      font-size: 14px !important;
+    }
+
+    .error-msg {
+      background: rgba(239, 68, 68, 0.2);
+      border: 1px solid rgba(239, 68, 68, 0.5);
+      color: #f87171;
+      padding: 9px 13px;
+      border-radius: 8px;
+      margin: 9px 0;
+      font-size: 13px;
+      animation: slideInDown 0.4s ease, wave 0.5s ease 0.5s;
+      display: none;
+    }
+
+    @keyframes wave {
+      0%, 100% {
+        transform: translateX(0);
+      }
+      25% {
+        transform: translateX(-5px);
+      }
+      75% {
+        transform: translateX(5px);
+      }
+    }
+
+    @keyframes slideInDown {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
 </head>
 <body>
-<div class="container">
+<div class="container login-container">
   <h2>Login</h2>
+
+  <div class="error-msg" id="errorMsg"></div>
 
   <input id="email" placeholder="Email">
   <input id="password" type="password" placeholder="Password">
 
   <button onclick="login()">Login</button>
+  <a href="register.html">Don't have an account? Register here</a>
 </div>
 
 <script>
 function login() {
-  fetch("http://your-backend.onrender.com", {
+  const button = event.target;
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
+  const errorMsg = document.getElementById("errorMsg");
+
+  if (!email || !password) {
+    errorMsg.textContent = '⚠ Please fill in all fields';
+    errorMsg.style.display = 'block';
+    return;
+  }
+
+  button.textContent = 'Logging in...';
+  button.disabled = true;
+  button.style.animation = 'pulse 1s ease-in-out';
+
+  fetch("http://localhost:3000/login", {
     method:"POST",
     headers:{"Content-Type":"application/json"},
     body: JSON.stringify({
-      email: email.value,
-      password: password.value
+      email: email,
+      password: password
     })
   })
   .then(res => res.json())
   .then(data => {
-    localStorage.setItem("user", JSON.stringify(data));
-    if(data.role === "admin")
-      window.location = "admin.html";
-    else
-      window.location = "vote.html";
+    if (data.error || !data.id) {
+      window.location.href = 'error.html';
+    } else {
+      localStorage.setItem("user", JSON.stringify(data));
+      if(data.role === "admin")
+        window.location = "admin.html";
+      else
+        window.location = "vote.html";
+    }
+  })
+  .catch(err => {
+    window.location.href = 'error.html';
+    button.style.animation = 'none';
   });
 }
+
+// Allow Enter key to submit
+document.addEventListener('keypress', function(event) {
+  if(event.key === 'Enter') {
+    login();
+  }
+});
 </script>
 </body>
 </html>
