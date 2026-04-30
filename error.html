@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Login Error</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .error-container {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-start;
+      justify-content: center;
+      gap: 30px;
+      width: min(100%, 900px);
+      padding: 32px 28px;
+      border-radius: 22px;
+
+      background: rgba(255, 255, 255, 0.14);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+
+      border: 1px solid rgba(255, 255, 255, 0.3);
+
+      box-shadow:
+        0 0 25px rgba(0, 255, 255, 0.25),
+        0 0 45px rgba(255, 0, 255, 0.15),
+        0 30px 60px rgba(0, 0, 0, 0.6);
+
+      animation: glowPulse 4s infinite ease-in-out;
+      transition: box-shadow 0.4s ease;
+      z-index: 1;
+    }
+
+    .error-panel {
+      flex: 1 1 300px;
+      min-width: 280px;
+      text-align: center;
+    }
+
+    .error-icon {
+      font-size: 80px;
+      margin-bottom: 20px;
+      animation: shake 0.6s ease;
+    }
+
+    .error-panel h1 {
+      color: #ff6b6b;
+      font-size: 32px;
+      margin-bottom: 15px;
+      text-shadow: 0 2px 8px rgba(255, 107, 107, 0.3);
+      text-align: center;
+    }
+
+    .error-message {
+      background: rgba(239, 68, 68, 0.15);
+      border: 2px solid rgba(239, 68, 68, 0.6);
+      color: #ff9999;
+      padding: 20px;
+      border-radius: 12px;
+      font-size: 15px;
+      line-height: 1.6;
+      animation: slideUp 0.6s ease-out 0.2s both;
+    }
+
+    .action-panel {
+      flex: 1 1 300px;
+      min-width: 280px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+    }
+
+    .error-tips {
+      background: rgba(100, 200, 255, 0.15);
+      border: 1px solid rgba(100, 200, 255, 0.4);
+      color: #a8d8ff;
+      padding: 20px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+      font-size: 13px;
+      line-height: 1.6;
+      text-align: left;
+      animation: slideUp 0.6s ease-out 0.4s both;
+    }
+
+    .error-tips strong {
+      display: block;
+      margin-bottom: 12px;
+      color: #64c8ff;
+      font-size: 14px;
+    }
+
+    .error-tips ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .error-tips li {
+      margin: 8px 0;
+      padding-left: 20px;
+      position: relative;
+    }
+
+    .error-tips li:before {
+      content: "→";
+      position: absolute;
+      left: 0;
+    }
+
+    .action-buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      animation: slideUp 0.6s ease-out 0.6s both;
+    }
+
+    .btn-primary {
+      padding: 12px 20px;
+      background: linear-gradient(135deg, #3b82f6, #2563eb);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 14px;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3);
+    }
+
+    .btn-primary:hover {
+      box-shadow: 0 6px 25px rgba(37, 99, 235, 0.5);
+      transform: translateY(-2px);
+    }
+
+    .btn-primary:active {
+      transform: translateY(0);
+    }
+
+    .btn-secondary {
+      padding: 12px 20px;
+      background: rgba(255, 255, 255, 0.15);
+      color: #fff;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 14px;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      display: block;
+      text-align: center;
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.25);
+      border-color: rgba(255, 255, 255, 0.5);
+    }
+
+    @keyframes glowPulse {
+      0% {
+        box-shadow:
+          0 0 20px rgba(0, 255, 255, 0.25),
+          0 0 40px rgba(255, 0, 255, 0.15),
+          0 30px 60px rgba(0, 0, 0, 0.6);
+      }
+      50% {
+        box-shadow:
+          0 0 35px rgba(0, 255, 255, 0.45),
+          0 0 65px rgba(255, 0, 255, 0.35),
+          0 40px 80px rgba(0, 0, 0, 0.8);
+      }
+      100% {
+        box-shadow:
+          0 0 20px rgba(0, 255, 255, 0.25),
+          0 0 40px rgba(255, 0, 255, 0.15),
+          0 30px 60px rgba(0, 0, 0, 0.6);
+      }
+    }
+
+    @keyframes shake {
+      0%, 100% {
+        transform: translateX(0) rotateZ(0deg);
+      }
+      25% {
+        transform: translateX(-10px) rotateZ(-2deg);
+      }
+      75% {
+        transform: translateX(10px) rotateZ(2deg);
+      }
+    }
+
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (max-width: 900px) {
+      .error-container {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .error-panel,
+      .action-panel {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="container error-container">
+  <div class="error-panel">
+    <div class="error-icon">❌</div>
+    <h1>Login Failed</h1>
+    <div class="error-message">
+      Invalid email or password. Please check your credentials and try again.
+    </div>
+  </div>
+
+  <div class="action-panel">
+    <div class="error-tips">
+      <strong>Troubleshooting Tips:</strong>
+      <ul>
+        <li>Ensure your email address is correct</li>
+        <li>Password is case-sensitive</li>
+        <li>Check for extra spaces before or after your text</li>
+        <li>If you forgot your password, register a new account</li>
+      </ul>
+    </div>
+
+    <div class="action-buttons">
+      <button class="btn-primary" onclick="goToLogin()">Try Again</button>
+      <a href="register.html" class="btn-secondary">Create New Account</a>
+      <a href="index.html" class="btn-secondary">Back to Home</a>
+    </div>
+  </div>
+</div>
+
+<script>
+function goToLogin() {
+  window.location.href = 'login.html';
+}
+</script>
+
+</body>
+</html>
