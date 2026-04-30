@@ -3,29 +3,200 @@
 <head>
   <title>Admin Dashboard</title>
   <link rel="stylesheet" href="style.css">
+  <style>
+    textarea {
+      width: 100%;
+      padding: 12px 16px;
+      margin: 10px 0;
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      outline: none;
+
+      background: rgba(255, 255, 255, 0.08);
+      color: #e0e7ff;
+      font-size: 14px;
+      font-family: inherit;
+      resize: vertical;
+      min-height: 80px;
+
+      box-shadow: inset 0 2px 6px rgba(0,0,0,0.2);
+      transition: all 0.3s ease;
+    }
+
+    textarea::placeholder {
+      color: rgba(255,255,255,0.5);
+    }
+
+    textarea:focus {
+      background: rgba(255,255,255,0.12);
+      border-color: rgba(147, 197, 253, 0.5);
+      box-shadow: 
+        inset 0 2px 6px rgba(0,0,0,0.2),
+        0 0 0 3px rgba(147, 197, 253, 0.1);
+      animation: focusPulse 0.4s ease;
+    }
+
+    @keyframes focusPulse {
+      0% {
+        box-shadow: 
+          inset 0 2px 6px rgba(0,0,0,0.2),
+          0 0 0 0 rgba(59, 130, 246, 0.4);
+      }
+      50% {
+        box-shadow: 
+          inset 0 2px 6px rgba(0,0,0,0.2),
+          0 0 0 10px rgba(59, 130, 246, 0.1);
+      }
+      100% {
+        box-shadow: 
+          inset 0 2px 6px rgba(0,0,0,0.2),
+          0 0 15px rgba(59, 130, 246, 0.2);
+      }
+    }
+
+    textarea:hover {
+      border-color: rgba(147, 197, 253, 0.4);
+      background: rgba(255,255,255,0.1);
+      box-shadow: 0 0 10px rgba(59, 130, 246, 0.15);
+    }
+
+    .form-group {
+      animation: slideInUp 0.6s ease-out;
+    }
+
+    .form-group:nth-child(1) { animation-delay: 0s; }
+    .form-group:nth-child(2) { animation-delay: 0.1s; }
+    .form-group:nth-child(3) { animation-delay: 0.2s; }
+    .form-group:nth-child(4) { animation-delay: 0.3s; }
+    .form-group:nth-child(5) { animation-delay: 0.4s; }
+
+    @keyframes slideInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .success-message {
+      background: rgba(16, 185, 129, 0.2);
+      border: 1px solid rgba(16, 185, 129, 0.5);
+      color: #34d399;
+      padding: 12px 16px;
+      border-radius: 8px;
+      margin: 10px 0;
+      animation: slideInDown 0.4s ease;
+    }
+
+    .error-message {
+      background: rgba(239, 68, 68, 0.2);
+      border: 1px solid rgba(239, 68, 68, 0.5);
+      color: #f87171;
+      padding: 12px 16px;
+      border-radius: 8px;
+      margin: 10px 0;
+      animation: slideInDown 0.4s ease, wave 0.5s ease 0.5s;
+    }
+
+    @keyframes wave {
+      0%, 100% {
+        transform: translateX(0);
+      }
+      25% {
+        transform: translateX(-5px);
+      }
+      75% {
+        transform: translateX(5px);
+      }
+    }
+
+    @keyframes slideInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes slideInDown {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    hr {
+      border: none;
+      height: 1px;
+      background: rgba(255, 255, 255, 0.1);
+      margin: 20px 0;
+    }
+  </style>
 </head>
 <body>
 
 <div class="container">
-  <h2>Add Candidate for nominations </h2>
-  <h2> </h2>
+  <div class="panel panel-form">
+    <h2>Add Candidate for nominations</h2>
 
-  <input id="cname" placeholder="Candidate Name" required>
-  <input id="party" placeholder="Party / Department" required>
-  <input id="image" placeholder="Upload Image URL of the candidate" required>
-  <textarea id="desc" placeholder="Candidate Description" required></textarea>
+    <div class="form-group">
+      <input id="cname" placeholder="Candidate Name" required>
+    </div>
+    <div class="form-group">
+      <input id="party" placeholder="Party / Department" required>
+    </div>
+    <div class="form-group">
+      <input id="image" placeholder="Upload Image URL of the candidate" required>
+    </div>
+    <div class="form-group">
+      <textarea id="desc" placeholder="Candidate Description" required></textarea>
+    </div>
 
-  <button onclick="addCandidate()">Add Candidate</button>
+    <button onclick="addCandidate()">Add Candidate</button>
 
-  <hr style="margin:20px 0; opacity:0.3">
+    <div id="notification" style="display:none;"></div>
+  </div>
 
-  <button onclick="loadResults()">View Results</button>
-  <div id="results"></div>
+  <div class="panel panel-results">
+    <h2>Election Results</h2>
+    <button onclick="loadResults()">View Results</button>
+    <div id="results"></div>
+  </div>
 </div>
 
 <script>
+function showNotification(message, type = 'success') {
+  const notification = document.getElementById("notification");
+  notification.className = type === 'success' ? 'success-message' : 'error-message';
+  notification.textContent = message;
+  notification.style.display = 'block';
+  notification.style.animation = 'slideInDown 0.4s ease';
+  
+  setTimeout(() => {
+    notification.style.animation = 'slideInUp 0.4s ease';
+    setTimeout(() => {
+      notification.style.display = 'none';
+    }, 400);
+  }, 3000);
+}
+
 function addCandidate() {
-  fetch("http://your-backend.onrender.com", {
+  const button = event.target;
+  button.textContent = 'Adding...';
+  button.disabled = true;
+  button.style.animation = 'pulse 1s ease-in-out';
+
+  fetch("http://localhost:3000/candidate", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
@@ -37,17 +208,46 @@ function addCandidate() {
     })
   })
   .then(res => res.text())
-  .then(alert);
+  .then(msg => {
+    showNotification(msg, 'success');
+    document.getElementById("cname").value = '';
+    document.getElementById("party").value = '';
+    document.getElementById("image").value = '';
+    document.getElementById("desc").value = '';
+    button.textContent = 'Add Candidate';
+    button.disabled = false;
+    button.style.animation = 'none';
+  })
+  .catch(err => {
+    showNotification('Error adding candidate', 'error');
+    button.textContent = 'Add Candidate';
+    button.disabled = false;
+    button.style.animation = 'none';
+  });
 }
 
 function loadResults() {
+  const button = event.target;
+  button.textContent = 'Loading...';
+  button.disabled = true;
+  button.style.animation = 'spin 1s linear infinite';
+
   fetch("http://localhost:3000/results")
   .then(res => res.json())
   .then(data => {
-    results.innerHTML = "<h3>Results</h3>";
-    data.forEach(r => {
-      results.innerHTML += `<p>${r.name} : ${r.votes}</p>`;
+    results.innerHTML = "<h3>Election Results</h3>";
+    data.forEach((r, index) => {
+      results.innerHTML += `<p style="animation-delay: ${index * 0.1}s">${r.name} : ${r.votes} votes</p>`;
     });
+    button.textContent = 'View Results';
+    button.disabled = false;
+    button.style.animation = 'none';
+  })
+  .catch(err => {
+    showNotification('Error loading results', 'error');
+    button.textContent = 'View Results';
+    button.disabled = false;
+    button.style.animation = 'none';
   });
 }
 </script>
